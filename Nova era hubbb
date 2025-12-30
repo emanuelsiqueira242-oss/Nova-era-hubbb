@@ -31,7 +31,7 @@ gradient.Rotation = 45
 
 -- TÃ­tulo
 local title = Instance.new("TextLabel", frame)
-title.Text = "âœ¨ OFICIALMENTE LANÃ‡ADO âœ¨"
+title.Text = "¨"
 title.Size = UDim2.new(1, 0, 0, 60)
 title.Position = UDim2.new(0, 0, 0.1, 0)
 title.BackgroundTransparency = 1
@@ -44,7 +44,7 @@ title.TextTransparency = 1
 -- DescriÃ§Ã£o
 local desc = Instance.new("TextLabel", frame)
 desc.Text = [[
-Nosso script foi lanÃ§ado oficialmente!
+Nosso script nova era hub oficial!
 AgradeÃ§o todo o apoio de vocÃªs â¤ï¸
 Divulgue e vocÃª pode ganhar atÃ© ADMIN ðŸŽ©
 Tchauu! ( nÃ£o temos Discord somente o da nova era hubque nÃ£o e meu)
@@ -172,7 +172,7 @@ local PlayerGui = Player:WaitForChild("PlayerGui")
 
 -- Cria ScreenGui
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "RedzHubIntro"
+screenGui.Name = "NovaEraHubintro"
 screenGui.ResetOnSpawn = false
 screenGui.IgnoreGuiInset = true
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -191,7 +191,7 @@ logo.Size = UDim2.new(0.6, 0, 0.2, 0)
 logo.Position = UDim2.new(0.5, 0, -0.2, 0)
 logo.AnchorPoint = Vector2.new(0.5, 0.5)
 logo.BackgroundTransparency = 1
-logo.Text = "{ .â€¢Â° nova era 2025 ðŸŽ© Â°â€¢. }"
+logo.Text = "{ Nova era hub anti mandrakes brookhaven rp 🏡}"
 logo.TextScaled = true
 logo.Font = Enum.Font.GothamBold
 logo.TextColor3 = Color3.fromRGB(255, 0, 0)
@@ -370,7 +370,7 @@ function Notify(imageId, text, time)
 		Label.TextXAlignment = Enum.TextXAlignment.Left
 		Label.ZIndex = 11
 
-		-- Linha inferior â€œnova era Hubâ€
+		-- Linha inferiornova era Hub
 		local Tag = Instance.new("TextLabel", Frame)
 		Tag.Size = UDim2.new(1, -10, 0, 16)
 		Tag.Position = UDim2.new(0, 10, 1, -18)
@@ -390,7 +390,7 @@ function Notify(imageId, text, time)
 		-- Som
 		local Sound = Instance.new("Sound", Frame)
 		Sound.SoundId = "rbxassetid://9118823108"
-		Sound.Volume = 0.8
+		Sound.Volume = 1.9
 		Sound:Play()
 
 		-- Efeito de tempo (barra de progresso)
@@ -427,17 +427,17 @@ local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cat55
 
 local Window = redzlib:MakeWindow({
     Title = "Nova era hub| brookhaven",
-    SubTitle = "| nova era hub beta scripp",
+    SubTitle = "| nova era hub",
     SaveFolder = "ConfigFolder"
 })
 
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://10734966248", BackgroundTransparency = 7 },
+    Button = { Image = "rbxassetid://76689700143916", BackgroundTransparency = 7 },
     Corner = { CornerRadius = UDim.new(0, 8) },
 })
 
 -- Aba Home
-local Tab1 = Window:MakeTab({ "| InÃ­cio", "menu" })
+local Tab1 = Window:MakeTab({ "| Inicio", "menu" })
 
 
 local Dialog = Window:Dialog({
@@ -810,7 +810,7 @@ local LocalPlayer = Players.LocalPlayer
 local flingActive = false
 
 TabPlayers:AddToggle({
-    Name = "fling Croch Method English Server",
+    Name = "fling Couch metodo inglês",
     Description = "fling Croch, starting Make Player For Void Kill/glitch",
     Default = false,
     Callback = function(state)
@@ -884,7 +884,7 @@ local LocalPlayer = Players.LocalPlayer
 local flingActive = false
 
 TabPlayers:AddToggle({
-    Name = "fling Croch Method Brazilian Server",
+    Name = "fling Couch metodo brasileiro",
     Description = "fling Croch, starting Make Player For Void Kill/glitch",
     Default = false,
     Callback = function(state)
@@ -952,11 +952,11 @@ TabPlayers:AddToggle({
     end
 })
 
-TabPlayers:AddSection({Name = "functions Kill | one click- "})
+TabPlayers:AddSection({Name = "functions Kill | um click- "})
 
 -- script create BY ghost
 TabPlayers:AddButton({
-	Name = "fling Croch",
+	Name = "fling Couch",
 	Description = "fling Croch, starting Make Player For Void Kill/glitch",
 	Callback = function()
 		local Players = game:GetService("Players")
