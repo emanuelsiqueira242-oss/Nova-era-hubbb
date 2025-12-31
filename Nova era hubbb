@@ -65,6 +65,10 @@ end
 step("Carregando interface...",0.3)
 step("Carregando funções...",0.6)
 step("Executando hub...",0.9)
+step("Finalizando...",1)
+
+task.wait(0.3)
+ScreenGui:Destroy()
 
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cat558-uz/Testaaa/refs/heads/main/LibTeste.txt"))()
 
