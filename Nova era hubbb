@@ -1,424 +1,56 @@
 
--- script create BY CABULOSO
-
--- ServiÃ§os
-local TweenService = game:GetService("TweenService")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-
--- GUI principal
-local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-gui.Name = "ComemoracaoScreen"
-
-local frame = Instance.new("Frame", gui)
-frame.AnchorPoint = Vector2.new(0.5, 0.5)
-frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-frame.Size = UDim2.new(0, 0, 0, 0)
-frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-frame.BorderSizePixel = 0
-frame.BackgroundTransparency = 1
-
-local corner = Instance.new("UICorner", frame)
-corner.CornerRadius = UDim.new(0, 20)
-
-local stroke = Instance.new("UIStroke", frame)
-stroke.Thickness = 2
-stroke.Color = Color3.fromRGB(255, 255, 255)
-stroke.Transparency = 0.4
-
-local gradient = Instance.new("UIGradient", frame)
-gradient.Rotation = 45
-
--- TÃ­tulo
-local title = Instance.new("TextLabel", frame)
-title.Text = "¨"
-title.Size = UDim2.new(1, 0, 0, 60)
-title.Position = UDim2.new(0, 0, 0.1, 0)
-title.BackgroundTransparency = 1
-title.TextColor3 = Color3.fromRGB(255, 255, 255)
-title.TextStrokeTransparency = 0.7
-title.Font = Enum.Font.GothamBlack
-title.TextScaled = true
-title.TextTransparency = 1
-
--- DescriÃ§Ã£o
-local desc = Instance.new("TextLabel", frame)
-desc.Text = [[
-Nosso script nova era hub oficial!
-AgradeÃ§o todo o apoio de vocÃªs â¤ï¸
-Divulgue e vocÃª pode ganhar atÃ© ADMIN ðŸŽ©
-Tchauu! ( nÃ£o temos Discord somente o da nova era hubque nÃ£o e meu)
-]]
-desc.Size = UDim2.new(0.9, 0, 0.5, 0)
-desc.Position = UDim2.new(0.05, 0, 0.4, 0)
-desc.BackgroundTransparency = 1
-desc.TextColor3 = Color3.fromRGB(230, 230, 230)
-desc.Font = Enum.Font.Gotham
-desc.TextScaled = true
-desc.TextWrapped = true
-desc.TextTransparency = 1
-
--- BotÃ£o Fechar
-local closeBtn = Instance.new("TextButton", frame)
-closeBtn.Text = "Fechar"
-closeBtn.Size = UDim2.new(0.35, 0, 0.15, 0)
-closeBtn.Position = UDim2.new(0.325, 0, 0.8, 0)
-closeBtn.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
-closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeBtn.Font = Enum.Font.GothamBold
-closeBtn.TextScaled = true
-closeBtn.TextTransparency = 1
-
-local btnCorner = Instance.new("UICorner", closeBtn)
-btnCorner.CornerRadius = UDim.new(0, 10)
-
-local btnStroke = Instance.new("UIStroke", closeBtn)
-btnStroke.Color = Color3.fromRGB(255, 255, 255)
-btnStroke.Thickness = 1.5
-btnStroke.Transparency = 0.5
-
--- PartÃ­culas decorativas
-for i = 1, 25 do
-	local spark = Instance.new("Frame", frame)
-	spark.Size = UDim2.new(0, math.random(3,6), 0, math.random(3,6))
-	spark.Position = UDim2.new(math.random(), 0, math.random(), 0)
-	spark.BackgroundColor3 = Color3.fromHSV(math.random(), 1, 1)
-	spark.BackgroundTransparency = 0
-	spark.BorderSizePixel = 0
-	spark.ZIndex = 10
-	task.spawn(function()
-		while spark.Parent do
-			local newPos = UDim2.new(math.random(), 0, math.random(), 0)
-			local newColor = Color3.fromHSV(math.random(), 1, 1)
-			local tween = TweenService:Create(spark, TweenInfo.new(2 + math.random(), Enum.EasingStyle.Linear), {
-				Position = newPos,
-				BackgroundColor3 = newColor
-			})
-			tween:Play()
-			task.wait(2)
-		end
-	end)
-end
-
--- AnimaÃ§Ã£o de entrada
-TweenService:Create(frame, TweenInfo.new(1, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-	Size = UDim2.new(0, 500, 0, 280),
-	BackgroundTransparency = 0
-}):Play()
-
-TweenService:Create(title, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 0.5), {
-	TextTransparency = 0
-}):Play()
-
-TweenService:Create(desc, TweenInfo.new(1.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 1.2), {
-	TextTransparency = 0
-}):Play()
-
-TweenService:Create(closeBtn, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0, false, 2), {
-	TextTransparency = 0
-}):Play()
-
--- Loop de cores do fundo
-task.spawn(function()
-	while frame.Parent do
-		for hue = 0, 255, 2 do
-			gradient.Color = ColorSequence.new{
-				ColorSequenceKeypoint.new(0, Color3.fromHSV(hue/255, 1, 1)),
-				ColorSequenceKeypoint.new(1, Color3.fromHSV((hue+85)/255, 1, 1))
-			}
-			task.wait(0.05)
-		end
-	end
-end)
-
--- Efeito hover no botÃ£o
-closeBtn.MouseEnter:Connect(function()
-	TweenService:Create(closeBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(255, 90, 90)}):Play()
-end)
-closeBtn.MouseLeave:Connect(function()
-	TweenService:Create(closeBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(255, 60, 60)}):Play()
-end)
-
--- Efeito pulsante no botÃ£o
-task.spawn(function()
-	while closeBtn.Parent do
-		TweenService:Create(closeBtn, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Size = UDim2.new(0.37, 0, 0.16, 0)}):Play()
-		task.wait(0.8)
-		TweenService:Create(closeBtn, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.In), {Size = UDim2.new(0.35, 0, 0.15, 0)}):Play()
-		task.wait(0.8)
-	end
-end)
-
--- Fechar
-closeBtn.MouseButton1Click:Connect(function()
-	TweenService:Create(frame, TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
-		Size = UDim2.new(0, 0, 0, 0),
-		BackgroundTransparency = 1
-	}):Play()
-	TweenService:Create(title, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
-	TweenService:Create(desc, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
-	TweenService:Create(closeBtn, TweenInfo.new(0.3), {TextTransparency = 1}):Play()
-	task.wait(0.6)
-	gui:Destroy()
-end)
-
-wait(4)
-
--- script create BY CABULOSO
-local TweenService = game:GetService("TweenService")
+-- script create BY CABULOSO	
+---------------- LOADING ----------------
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
--- Cria ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "NovaEraHubintro"
-screenGui.ResetOnSpawn = false
-screenGui.IgnoreGuiInset = true
-screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-screenGui.Parent = PlayerGui
+local ScreenGui = Instance.new("ScreenGui", PlayerGui)
+ScreenGui.ResetOnSpawn = false
 
--- Fundo preto
-local bg = Instance.new("Frame")
-bg.Size = UDim2.fromScale(1, 1)
-bg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-bg.BackgroundTransparency = 1
-bg.Parent = screenGui
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0,320,0,170)
+Frame.Position = UDim2.new(0.5,-160,0.5,-85)
+Frame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+Frame.BorderSizePixel = 0
+Instance.new("UICorner",Frame).CornerRadius = UDim.new(0,14)
 
--- Texto principal
-local logo = Instance.new("TextLabel")
-logo.Size = UDim2.new(0.6, 0, 0.2, 0)
-logo.Position = UDim2.new(0.5, 0, -0.2, 0)
-logo.AnchorPoint = Vector2.new(0.5, 0.5)
-logo.BackgroundTransparency = 1
-logo.Text = "{ Nova era hub anti mandrakes brookhaven rp 🏡}"
-logo.TextScaled = true
-logo.Font = Enum.Font.GothamBold
-logo.TextColor3 = Color3.fromRGB(255, 0, 0)
-logo.TextStrokeTransparency = 0.3
-logo.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-logo.Parent = screenGui
+local Title = Instance.new("TextLabel",Frame)
+Title.Size = UDim2.new(1,0,0,40)
+Title.Position = UDim2.new(0,0,0,15)
+Title.BackgroundTransparency = 1
+Title.Text = "👺NOVA ERA HUB 👺"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 22
+Title.TextColor3 = Color3.fromRGB(0,255,255)
 
-local gradient = Instance.new("UIGradient", logo)
-gradient.Color = ColorSequence.new{
-	ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
-	ColorSequenceKeypoint.new(0.5, Color3.fromRGB(60, 0, 0)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
-}
-gradient.Rotation = 45
+local Status = Instance.new("TextLabel",Frame)
+Status.Size = UDim2.new(1,0,0,30)
+Status.Position = UDim2.new(0,0,0,75)
+Status.BackgroundTransparency = 1
+Status.Text = "Carregando..."
 
--- Texto secundÃ¡rio animado
-local subtitle = Instance.new("TextLabel")
-subtitle.Size = UDim2.new(0, 200, 0, 25)
-subtitle.Position = UDim2.new(0.5, 0, 0.58, 0)
-subtitle.AnchorPoint = Vector2.new(0.5, 0.5)
-subtitle.BackgroundTransparency = 1
-subtitle.Text = "Not From Oficial"
-subtitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-subtitle.TextTransparency = 1
-subtitle.TextScaled = true
-subtitle.Font = Enum.Font.Gotham
-subtitle.Parent = screenGui
+local BarBg = Instance.new("Frame",Frame)
+BarBg.Size = UDim2.new(0.8,0,0,10)
+BarBg.Position = UDim2.new(0.1,0,1,-40)
+BarBg.BackgroundColor3 = Color3.fromRGB(40,40,40)
+Instance.new("UICorner",BarBg).CornerRadius = UDim.new(1,0)
 
--- Barra de carregamento
-local loadFrame = Instance.new("Frame")
-loadFrame.Size = UDim2.new(0, 0, 0.02, 0)
-loadFrame.Position = UDim2.new(0.5, 0, 0.85, 0)
-loadFrame.AnchorPoint = Vector2.new(0.5, 0)
-loadFrame.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-loadFrame.BorderSizePixel = 0
-loadFrame.Parent = screenGui
+local Bar = Instance.new("Frame",BarBg)
+Bar.Size = UDim2.new(0,0,1,0)
+Bar.BackgroundColor3 = Color3.fromRGB(0,255,255)
+Instance.new("UICorner",Bar).CornerRadius = UDim.new(1,0)
 
-local function tween(obj, info, props)
-	return TweenService:Create(obj, info, props)
+local function step(t,p)
+	Status.Text = t
+	Bar:TweenSize(UDim2.new(p,0,1,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.4,true)
+	task.wait(0.5)
 end
 
--- Fade-in fundo
-tween(bg, TweenInfo.new(0.5), {BackgroundTransparency = 0}):Play()
-task.wait(0.6)
-
--- Entrada do logo
-tween(logo, TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
-	Position = UDim2.new(0.5, 0, 0.4, 0)
-}):Play()
-
-task.wait(1)
-tween(logo, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-	TextSize = logo.TextSize * 1.05
-}):Play()
-
--- Fade-in do subtÃ­tulo + animaÃ§Ã£o de pulsar
-tween(subtitle, TweenInfo.new(1), {TextTransparency = 0}):Play()
-task.wait(1.2)
-task.spawn(function()
-	while subtitle and subtitle.Parent do
-		tween(subtitle, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {TextTransparency = 0.5}):Play()
-		task.wait(1.2)
-		tween(subtitle, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {TextTransparency = 0}):Play()
-		task.wait(1.2)
-	end
-end)
-
--- Barra de carregamento
-tween(loadFrame, TweenInfo.new(2, Enum.EasingStyle.Linear), {
-	Size = UDim2.new(0.8, 0, 0.02, 0)
-}):Play()
-
--- Som
-local sound = Instance.new("Sound")
-sound.SoundId = "rbxassetid://107004225739474"
-sound.Volume = 2
-sound.Parent = screenGui
-sound:Play()
-
--- SaÃ­da
-task.wait(2.5)
-tween(bg, TweenInfo.new(0.8), {BackgroundTransparency = 1}):Play()
-tween(logo, TweenInfo.new(0.8), {TextTransparency = 1}):Play()
-tween(subtitle, TweenInfo.new(0.8), {TextTransparency = 1}):Play()
-tween(loadFrame, TweenInfo.new(0.8), {BackgroundTransparency = 1}):Play()
-
-task.wait(1)
-screenGui:Destroy()
-
-
-local TweenService = game:GetService("TweenService")
-local Player = game.Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
-
--- GUI principal
-local NotifyGui = PlayerGui:FindFirstChild("NotifyGui") or Instance.new("ScreenGui")
-NotifyGui.Name = "NotifyGui"
-NotifyGui.Parent = PlayerGui
-NotifyGui.ResetOnSpawn = false
-
--- Pasta das notificaÃ§Ãµes
-local NotifFolder = NotifyGui:FindFirstChild("NotifFolder") or Instance.new("Folder")
-NotifFolder.Name = "NotifFolder"
-NotifFolder.Parent = NotifyGui
-
--- ConfiguraÃ§Ãµes visuais
-local NOTIF_WIDTH = 280
-local NOTIF_HEIGHT = 70
-local NOTIF_SPACING = 8
-local MAX_NOTIFS = 4
-local BASE_POSITION = UDim2.new(1, -300, 1, -80)
-
-function Notify(imageId, text, time)
-	local ok, err = pcall(function()
-		time = time or 3
-		imageId = imageId or 6031075932
-		text = text or "NotificaÃ§Ã£o"
-
-		for _, oldNotif in ipairs(NotifFolder:GetChildren()) do
-			if oldNotif:IsA("Frame") then
-				local newY = oldNotif.Position.Y.Offset - (NOTIF_HEIGHT + NOTIF_SPACING)
-				TweenService:Create(oldNotif, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-					Position = UDim2.new(1, -300, 1, newY)
-				}):Play()
-			end
-		end
-
-		if #NotifFolder:GetChildren() >= MAX_NOTIFS then
-			local oldest = NotifFolder:GetChildren()[1]
-			if oldest then oldest:Destroy() end
-		end
-
-		local Frame = Instance.new("Frame")
-		Frame.Size = UDim2.new(0, NOTIF_WIDTH, 0, NOTIF_HEIGHT)
-		Frame.Position = UDim2.new(1, 300, 1, -80)
-		Frame.AnchorPoint = Vector2.new(0, 1)
-		Frame.BackgroundTransparency = 0
-		Frame.BorderSizePixel = 0
-		Frame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
-		Frame.Parent = NotifFolder
-		Frame.ZIndex = 10
-
-		local UICorner = Instance.new("UICorner", Frame)
-		UICorner.CornerRadius = UDim.new(0, 10)
-
-		local UIStroke = Instance.new("UIStroke", Frame)
-		UIStroke.Thickness = 1.6
-		UIStroke.Color = Color3.fromRGB(255, 0, 80)
-		UIStroke.Transparency = 0.05
-
-		local Gradient = Instance.new("UIGradient", Frame)
-		Gradient.Color = ColorSequence.new({
-			ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
-			ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 0, 30))
-		})
-		Gradient.Rotation = 0
-
-		-- Ãcone
-		local Image = Instance.new("ImageLabel", Frame)
-		Image.Size = UDim2.new(0, 50, 0, 50)
-		Image.Position = UDim2.new(0, 10, 0.5, -25)
-		Image.BackgroundTransparency = 1
-		Image.Image = "rbxassetid://" .. tostring(imageId)
-		Image.ZIndex = 11
-
-		-- Texto principal
-		local Label = Instance.new("TextLabel", Frame)
-		Label.Size = UDim2.new(1, -75, 1, -10)
-		Label.Position = UDim2.new(0, 65, 0, 5)
-		Label.BackgroundTransparency = 1
-		Label.Text = text
-		Label.TextColor3 = Color3.fromRGB(255, 255, 255)
-		Label.TextSize = 17
-		Label.Font = Enum.Font.GothamBold
-		Label.TextWrapped = true
-		Label.TextXAlignment = Enum.TextXAlignment.Left
-		Label.ZIndex = 11
-
-		-- Linha inferiornova era Hub
-		local Tag = Instance.new("TextLabel", Frame)
-		Tag.Size = UDim2.new(1, -10, 0, 16)
-		Tag.Position = UDim2.new(0, 10, 1, -18)
-		Tag.BackgroundTransparency = 1
-		Tag.Text = "Redz Hub"
-		Tag.TextColor3 = Color3.fromRGB(255, 0, 70)
-		Tag.TextSize = 13
-		Tag.Font = Enum.Font.GothamSemibold
-		Tag.TextXAlignment = Enum.TextXAlignment.Right
-		Tag.ZIndex = 12
-
-		-- Efeito de entrada
-		TweenService:Create(Frame, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
-			Position = BASE_POSITION
-		}):Play()
-
-		-- Som
-		local Sound = Instance.new("Sound", Frame)
-		Sound.SoundId = "rbxassetid://9118823108"
-		Sound.Volume = 1.9
-		Sound:Play()
-
-		-- Efeito de tempo (barra de progresso)
-		local Bar = Instance.new("Frame", Frame)
-		Bar.BackgroundColor3 = Color3.fromRGB(255, 0, 70)
-		Bar.BorderSizePixel = 0
-		Bar.Size = UDim2.new(1, 0, 0, 2)
-		Bar.Position = UDim2.new(0, 0, 1, -2)
-		Bar.ZIndex = 13
-
-		TweenService:Create(Bar, TweenInfo.new(time, Enum.EasingStyle.Linear), {
-			Size = UDim2.new(0, 0, 0, 2)
-		}):Play()
-
-		-- SaÃ­da
-		task.delay(time, function()
-			TweenService:Create(Frame, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-				Position = UDim2.new(1, 300, 1, Frame.Position.Y.Offset)
-			}):Play()
-			task.wait(0.35)
-			Frame:Destroy()
-		end)
-	end)
-
-	if not ok then
-		warn("Erro na notificaÃ§Ã£o:", err)
-	end
-end
+step("Carregando UI...",0.4)
+step("Carregando funções...",0.7)
+step("Finalizando...",1)
+ScreenGui:Destroy()
 
 --// Exemplo de uso:
 Notify(10709806740, "Bem-vindo Este E o Novo nova era Hub feito Por cabuloso", 5)
@@ -802,81 +434,7 @@ TabPlayers:AddToggle({
     end
 })
 
-TabPlayers:AddSection({ " functions Croch loop" })
-
-local cam = workspace.CurrentCamera
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local flingActive = false
-
-TabPlayers:AddToggle({
-    Name = "fling Couch metodo inglês",
-    Description = "fling Croch, starting Make Player For Void Kill/glitch",
-    Default = false,
-    Callback = function(state)
-        flingActive = state
-        task.spawn(function()
-            while flingActive do
-                if selectedPlayer then
-                    local target = Players:FindFirstChild(selectedPlayer)
-                    if target and target.Character then
-                        local char = LocalPlayer.Character
-                        local root = char and char:FindFirstChild("HumanoidRootPart")
-                        local tRoot = target.Character:FindFirstChild("HumanoidRootPart")
-                        local tHum = target.Character:FindFirstChildOfClass("Humanoid")
-                        local hum = char and char:FindFirstChildOfClass("Humanoid")
-                        if root and tRoot and tHum and hum then
-                            local args = {[1]="ClearAllTools"}
-                            game:GetService("ReplicatedStorage").RE:FindFirstChild("1Clea1rTool1s"):FireServer(unpack(args))
-                            wait(0.3)
-                            game:GetService("ReplicatedStorage").RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools","Couch")
-                            local original = root.CFrame
-                            local tool = LocalPlayer.Backpack:FindFirstChildOfClass("Tool")
-                            if tool then tool.Parent = char end
-                            workspace.FallenPartsDestroyHeight = -math.huge
-                            local bv = Instance.new("BodyVelocity")
-                            bv.Name = "FlingForce"
-                            bv.Velocity = Vector3.new(9e8,9e8,9e8)
-                            bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-                            bv.Parent = root
-                            hum:SetStateEnabled(Enum.HumanoidStateType.Seated,false)
-                            hum.PlatformStand = false
-                            cam.CameraSubject = tRoot
-                            local angle = 0
-                            while flingActive and target and target.Character and target.Character:FindFirstChildOfClass("Humanoid") do
-                                tHum = target.Character:FindFirstChildOfClass("Humanoid")
-                                tRoot = target.Character:FindFirstChild("HumanoidRootPart")
-                                if not tRoot or tHum.Sit or tRoot.Position.Y>=70000 then break end
-                                local moveDir = tHum.MoveDirection
-                                local offset = Vector3.new(0,0,0)
-                                if moveDir.Magnitude>=0.01 then
-                                    local speed = tHum.WalkSpeed
-                                    local studs = 13
-                                    if speed>16 then studs=studs+math.floor((speed-16)/9)*9 end
-                                    offset=moveDir.Unit*studs
-                                end
-                                angle+=30
-                                root.CFrame = CFrame.new(tRoot.Position+offset+Vector3.new(0,1,0))*CFrame.Angles(math.rad(angle),0,0)
-                                root.Velocity = Vector3.new(9e8,9e8,9e8)
-                                root.RotVelocity = Vector3.new(9e8,9e8,9e8)
-                                task.wait()
-                            end
-                            bv:Destroy()
-                            hum:SetStateEnabled(Enum.HumanoidStateType.Seated,true)
-                            hum.PlatformStand=false
-                            root.CFrame=original
-                            cam.CameraSubject=hum
-                            for _,p in pairs(char:GetDescendants()) do if p:IsA("BasePart") then p.Velocity=Vector3.zero p.RotVelocity=Vector3.zero end end
-                            hum:UnequipTools()
-                            game:GetService("ReplicatedStorage").RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools","Couch")
-                        end
-                    end
-                end
-                task.wait(0.5)
-            end
-        end)
-    end
-})
+TabPlayers:AddSection({ " functions Couch loop" })
 
 local cam = workspace.CurrentCamera
 local Players = game:GetService("Players")
@@ -957,7 +515,7 @@ TabPlayers:AddSection({Name = "functions Kill | um click- "})
 -- script create BY ghost
 TabPlayers:AddButton({
 	Name = "fling Couch",
-	Description = "fling Croch, starting Make Player For Void Kill/glitch",
+	Description = "fling Couch, starting Make Player For Void Kill/glitch",
 	Callback = function()
 		local Players = game:GetService("Players")
 		local LocalPlayer = Players.LocalPlayer
