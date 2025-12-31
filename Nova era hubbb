@@ -1,6 +1,6 @@
 
 --==================================================
--- ⚡ NOVA ERA HUB | LOADING FIXED ⚡
+-- ⚡ NOVA ERA HUB | LOADER FINAL (FIXED)
 --==================================================
 
 local Players = game:GetService("Players")
@@ -49,26 +49,30 @@ Bar.Size = UDim2.new(0,0,1,0)
 Bar.BackgroundColor3 = Color3.fromRGB(0,255,255)
 Instance.new("UICorner",Bar).CornerRadius = UDim.new(1,0)
 
---================ LOADING STEPS =================
+--================ FUNÇÕES =================
 local function step(text, percent)
 	Status.Text = text
 	Bar:TweenSize(
 		UDim2.new(percent,0,1,0),
 		Enum.EasingDirection.Out,
 		Enum.EasingStyle.Quad,
-		0.4,
+		0.35,
 		true
 	)
-	task.wait(0.6)
+	task.wait(0.5)
 end
 
+--================ LOADING =================
 step("Carregando interface...",0.3)
 step("Carregando funções...",0.6)
-step("Executando hub...",0.9)
-step("Finalizando...",1)
+step("Iniciando hub...",0.85)
 
-task.wait(0.3)
-ScreenGui:Destroy()
+--================ FECHA LOADING SEMPRE =================
+task.delay(1.2, function()
+	if ScreenGui and ScreenGui.Parent then
+		ScreenGui:Destroy()
+	end
+end)
 
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cat558-uz/Testaaa/refs/heads/main/LibTeste.txt"))()
 
