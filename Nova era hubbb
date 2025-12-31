@@ -1,12 +1,17 @@
 
--- script create BY CABULOSO	
----------------- LOADING ----------------
+--==================================================
+-- ⚡ NOVA ERA HUB | LOADING FIXED ⚡
+--==================================================
+
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
-local ScreenGui = Instance.new("ScreenGui", PlayerGui)
+--================ LOADING UI =================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "NovaEraLoading"
 ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
 
 local Frame = Instance.new("Frame", ScreenGui)
 Frame.Size = UDim2.new(0,320,0,170)
@@ -19,16 +24,19 @@ local Title = Instance.new("TextLabel",Frame)
 Title.Size = UDim2.new(1,0,0,40)
 Title.Position = UDim2.new(0,0,0,15)
 Title.BackgroundTransparency = 1
-Title.Text = "👺NOVA ERA HUB 👺"
+Title.Text = "⚡ NOVA ERA HUB ⚡"
 Title.Font = Enum.Font.GothamBold
 Title.TextSize = 22
 Title.TextColor3 = Color3.fromRGB(0,255,255)
 
 local Status = Instance.new("TextLabel",Frame)
-Status.Size = UDim2.new(1,0,0,30)
+Status.Size = UDim2.new(1,0,0,25)
 Status.Position = UDim2.new(0,0,0,75)
 Status.BackgroundTransparency = 1
-Status.Text = "Carregando..."
+Status.TextColor3 = Color3.fromRGB(200,200,200)
+Status.Font = Enum.Font.Gotham
+Status.TextSize = 14
+Status.Text = "Iniciando..."
 
 local BarBg = Instance.new("Frame",Frame)
 BarBg.Size = UDim2.new(0.8,0,0,10)
@@ -41,19 +49,22 @@ Bar.Size = UDim2.new(0,0,1,0)
 Bar.BackgroundColor3 = Color3.fromRGB(0,255,255)
 Instance.new("UICorner",Bar).CornerRadius = UDim.new(1,0)
 
-local function step(t,p)
-	Status.Text = t
-	Bar:TweenSize(UDim2.new(p,0,1,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.4,true)
-	task.wait(0.5)
+--================ LOADING STEPS =================
+local function step(text, percent)
+	Status.Text = text
+	Bar:TweenSize(
+		UDim2.new(percent,0,1,0),
+		Enum.EasingDirection.Out,
+		Enum.EasingStyle.Quad,
+		0.4,
+		true
+	)
+	task.wait(0.6)
 end
 
-step("Carregando UI...",0.4)
-step("Carregando funções...",0.7)
-step("Finalizando...",1)
-ScreenGui:Destroy()
-
---// Exemplo de uso:
-Notify(10709806740, "Bem-vindo Este E o Novo nova era Hub feito Por cabuloso", 5)
+step("Carregando interface...",0.3)
+step("Carregando funções...",0.6)
+step("Executando hub...",0.9)
 
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cat558-uz/Testaaa/refs/heads/main/LibTeste.txt"))()
 
