@@ -455,6 +455,187 @@ TabPlayers:AddToggle({
 
 TabPlayers:AddSection({ " functions Couch loop" })
 
+-- ===============================
+-- 🔥 FLING V2 BOAT EXTREMO (TOGGLE)
+-- Força: 1.000.000
+-- ===============================
+
+local FlingBoatActive = false
+local PCar
+local Spin
+local Boost
+local FlingThread
+
+TabPlayers:AddToggle({
+    Name = "Fling V2 - Boat (EXTREMO)",
+    Default = false,
+    Callback = function(Value)
+        FlingBoatActive = Value
+
+        -- ===============================
+        -- DESLIGAR
+        -- ===============================
+        if not Value then
+            if Spin then
+                Spin:Destroy()
+                Spin = nil
+            end
+
+            if Boost then
+                Boost:Destroy()
+                Boost = nil
+            end
+
+            if PCar then
+                PCar:Destroy()
+                PCar = nil
+            end
+
+            if FlingThread then
+                task.cancel(FlingThread)
+                FlingThread = nil
+            end
+
+            warn("🔥 Fling Boat EXTREMO desligado")
+            return
+        end
+
+        -- ===============================
+        -- LIGAR
+        -- ===============================
+        if not selectedPlayer or not game.Players:FindFirstChild(selectedPlayer) then
+            warn("Nenhum jogador selecionado ou inválido")
+            return
+        end
+
+        local Players = game:GetService("Players")
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local Player = Players.LocalPlayer
+        local Character = Player.Character or Player.CharacterAdded:Wait()
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        local RootPart = Character:FindFirstChild("HumanoidRootPart")
+        local Vehicles = workspace:FindFirstChild("Vehicles")
+
+        if not Humanoid or not RootPart or not Vehicles then
+            warn("Erro ao obter personagem ou veículos")
+            return
+        end
+
+        -- ===============================
+        -- SPAWN DO BARCO
+        -- ===============================
+        local function spawnBoat()
+            RootPart.CFrame = CFrame.new(1754, -2, 58)
+            task.wait(0.5)
+            ReplicatedStorage.RE["1Ca1r"]:FireServer(
+                "PickingBoat",
+                "MilitaryBoatFree"
+            )
+            task.wait(1)
+            return Vehicles:FindFirstChild(Player.Name .. "Car")
+        end
+
+        PCar = Vehicles:FindFirstChild(Player.Name .. "Car") or spawnBoat()
+        if not PCar or not PCar.PrimaryPart then
+            warn("Falha ao spawnar o barco")
+            return
+        end
+
+        -- ===============================
+        -- SENTAR NO BARCO
+        -- ===============================
+        local Seat = PCar:FindFirstChild("Body") and PCar.Body:FindFirstChild("VehicleSeat")
+        if not Seat then
+            warn("Assento não encontrado")
+            return
+        end
+
+        repeat
+            task.wait(0.1)
+            RootPart.CFrame = Seat.CFrame * CFrame.new(0, 1, 0)
+        until Humanoid.SeatPart == Seat
+
+        -- ===============================
+        -- ALVO
+        -- ===============================
+        local TargetPlayer = Players:FindFirstChild(selectedPlayer)
+        if not TargetPlayer or not TargetPlayer.Character then
+            warn("Jogador alvo não encontrado")
+            return
+        end
+
+        local TargetRP = TargetPlayer.Character:FindFirstChild("HumanoidRootPart")
+        if not TargetRP then
+            warn("RootPart do alvo não encontrado")
+            return
+        end
+
+        -- ===============================
+        -- SPIN EXTREMO (1.000.000)
+        -- ===============================
+        Spin = Instance.new("BodyAngularVelocity")
+        Spin.Name = "BoatSpinExtreme"
+        Spin.Parent = PCar.PrimaryPart
+        Spin.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+        Spin.AngularVelocity = Vector3.new(0, 1000000, 0)
+
+        -- ===============================
+        -- BOOST EXTREMO (EMPURRÃO)
+        -- ===============================
+        Boost = Instance.new("BodyVelocity")
+        Boost.Name = "BoatBoostExtreme"
+        Boost.Parent = PCar.PrimaryPart
+        Boost.MaxForce = Vector3.new(1000000, 1000000, 1000000)
+        Boost.Velocity = Vector3.zero
+
+        -- ===============================
+        -- LOOP PRINCIPAL
+        -- ===============================
+        FlingThread = task.spawn(function()
+            while FlingBoatActive
+                and PCar
+                and PCar.Parent
+                and TargetRP
+                and TargetRP.Parent do
+
+                task.wait(0.01)
+
+                local direction = (TargetRP.Position - PCar.PrimaryPart.Position).Unit
+                local offset = TargetRP.CFrame.LookVector * 2 + Vector3.new(0, 1.5, 0)
+
+                -- seguir + girar caótico
+                PCar:SetPrimaryPartCFrame(
+                    CFrame.new(TargetRP.Position + offset) *
+                    CFrame.Angles(
+                        math.rad(math.random(-720, 720)),
+                        math.rad(math.random(-720, 720)),
+                        math.rad(math.random(-720, 720))
+                    )
+                )
+
+                -- empurrão extremo
+                Boost.Velocity = direction * 1000000
+
+                -- auto stop se o alvo já foi lançado
+                if TargetRP.Position.Y > 7000 then
+                    warn("🚀 Alvo lançado com sucesso")
+                    break
+                end
+            end
+
+            -- LIMPEZA FINAL
+            if Spin then Spin:Destroy() end
+            if Boost then Boost:Destroy() end
+            if PCar then PCar:Destroy() end
+
+            Spin = nil
+            Boost = nil
+            PCar = nil
+            FlingBoatActive = false
+        end)
+    end
+})
+
 local cam = workspace.CurrentCamera
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
