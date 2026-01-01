@@ -189,7 +189,7 @@ local TabPlayers = Window:MakeTab({ "| players", "User" })
 
 
 
-TabPlayers:AddSection({Name = " Target ( coloque o nome )"})
+TabPlayers:AddSection({Name = " Target ( "INSERT ONLY NAME )"})
 
 local viewing = false
 local loopTP = false
