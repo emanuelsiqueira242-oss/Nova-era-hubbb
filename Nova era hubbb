@@ -189,9 +189,7 @@ local TabPlayers = Window:MakeTab({ "| players", "User" })
 
 
 
-TabPlayers:AddSection({Name = " Target ( coloque o nome
-
-)"})
+TabPlayers:AddSection({Name = " Target ( coloque o nome )"})
 
 local viewing = false
 local loopTP = false
@@ -658,7 +656,7 @@ TabPlayers:AddButton({
         bv.Name = "FlingPower"
         bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
         bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        bv.P = 9e900
+        bv.P = 9e90000
         bv.Parent = Ball
 
         -- loop a colar no alvo
