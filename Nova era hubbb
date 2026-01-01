@@ -19,13 +19,6 @@ Background.Size = UDim2.fromScale(1, 1)
 Background.BackgroundColor3 = Color3.fromRGB(140, 0, 0) -- vermelho escuro
 Background.Parent = LoadingGui
 
--- Detalhe preto
-local BlackDetail = Instance.new("Frame")
-BlackDetail.Size = UDim2.fromScale(1, 0.35)
-BlackDetail.Position = UDim2.fromScale(0, 0.65)
-BlackDetail.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-BlackDetail.Parent = Background
-
 -- Texto
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.fromScale(1, 0.2)
@@ -56,7 +49,7 @@ local pulse = TweenService:Create(
 pulse:Play()
 
 -- Remove loading após alguns segundos
-task.delay(3.5, function()
+task.deloca5.5, function()
     local fade = TweenService:Create(
         Background,
         TweenInfo.new(0.8),
@@ -191,11 +184,13 @@ Tab1:AddButton({
 
 local Paragraph = Tab1:AddParagraph({"Aviso", "obrigado por usar"})
 
-local TabPlayers = Window:MakeTab({ "| Players", "User" })
+local TabPlayers = Window:MakeTab({ "| troll", "User" })
 
 
 
-TabPlayers:AddSection({Name = " Target ( INSERT ONLY NAME )"})
+TabPlayers:AddSection({Name = " Target ( coloque o nome
+
+)"})
 
 local viewing = false
 local loopTP = false
@@ -662,14 +657,14 @@ TabPlayers:AddButton({
         bv.Name = "FlingPower"
         bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
         bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        bv.P = 9e900
+        bv.P = 9e9000000
         bv.Parent = Ball
 
         -- loop a colar no alvo
         task.spawn(function()
             repeat
                 if troot.Velocity.Magnitude > 0 then
-                    local pos = troot.Position + (troot.Velocity / 1.5)
+                    local pos = troot.Position + (troot.Velocity / 100.5)
                     Ball.CFrame = CFrame.new(pos)
                     Ball.Orientation += Vector3.new(45, 60, 30)
                 else
@@ -3939,7 +3934,7 @@ TabAvatar:AddToggle({
 })
 
 
-local TabTroll = Window:MakeTab({ "| Troll", "smile" })
+local TabTroll = Window:MakeTab({ "| players", "smile" })
 
 TabTroll:AddSection({ " Bang troll" })
 
@@ -4517,7 +4512,7 @@ TabTroll:AddButton({
     end
 })
 
-local BNumber = 600 -- Valor fixo
+local BNumber = 600000 -- Valor fixo
 local raioCirculo = 5 -- DistÃƒÆ’Ã‚Â¢ncia do cÃƒÆ’Ã‚Â­rculo em relaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o ao personagem
 
 -- FunÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o para organizar itens em formato de cÃƒÆ’Ã‚Â­rculo
