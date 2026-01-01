@@ -192,7 +192,7 @@ Tab1:AddButton({
 
 local Paragraph = Tab1:AddParagraph({"Aviso", "obrigado por usar"})
 
-local TabPlayers = Window:MakeTab({ "| troll", "User" })
+local TabPlayers = Window:MakeTab({ "| players", "User" })
 
 
 
@@ -3942,7 +3942,7 @@ TabAvatar:AddToggle({
 })
 
 
-local TabTroll = Window:MakeTab({ "| players", "smile" })
+local TabTroll = Window:MakeTab({ "| troll", "smile" })
 
 TabTroll:AddSection({ " Bang troll" })
 
