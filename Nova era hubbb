@@ -658,7 +658,7 @@ TabPlayers:AddButton({
         bv.Name = "FlingPower"
         bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
         bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        bv.P = 9e9000000
+        bv.P = 9e900
         bv.Parent = Ball
 
         -- loop a colar no alvo
