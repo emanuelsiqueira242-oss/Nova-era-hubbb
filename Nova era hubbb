@@ -13,6 +13,13 @@ LoadingGui.IgnoreGuiInset = true
 LoadingGui.ResetOnSpawn = false
 LoadingGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
+-- Detalhe preto
+local BlackDetail = Instance.new("Frame")
+BlackDetail.Size = UDim2.fromScale(1, 0.35)
+BlackDetail.Position = UDim2.fromScale(0, 0.65)
+BlackDetail.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BlackDetail.Parent = Background
+
 -- Texto
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.fromScale(1, 0.2)
@@ -24,13 +31,6 @@ Title.TextScaled = true
 Title.Font = Enum.Font.GothamBold
 Title.TextStrokeTransparency = 0
 Title.Parent = Background
-
--- Detalhe preto
-local BlackDetail = Instance.new("Frame")
-BlackDetail.Size = UDim2.fromScale(1, 0.35)
-BlackDetail.Position = UDim2.fromScale(0, 0.65)
-BlackDetail.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-BlackDetail.Parent = Background
 
 -- Animação de pulsar
 local tweenInfo = TweenInfo.new(
