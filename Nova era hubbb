@@ -13,19 +13,12 @@ LoadingGui.IgnoreGuiInset = true
 LoadingGui.ResetOnSpawn = false
 LoadingGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
--- Fundo principal
-local Background = Instance.new("Frame")
-Background.Size = UDim2.fromScale(1, 1)
-Background.BackgroundColor3 = Color3.fromRGB(140, 0, 0) -- vermelho escuro
-Background.Parent = LoadingGui
-
-
 -- Texto
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.fromScale(1, 0.2)
 Title.Position = UDim2.fromScale(0, 0.4)
 Title.BackgroundTransparency = 1
-Title.Text = "📜 NOVA ERA HUB 📜"
+Title.Text = "SCRIPT CREATOR BY CABULOSOdev"
 Title.TextColor3 = Color3.fromRGB(255, 60, 60)
 Title.TextScaled = true
 Title.Font = Enum.Font.GothamBold
