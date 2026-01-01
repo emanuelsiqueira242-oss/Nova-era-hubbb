@@ -2092,16 +2092,16 @@ end
 TabLag:AddSlider({
     Name = "PotÃªncia do Lag Selecionado",
     Min = 1,
-    Max = 1000,
+    Max = 100000,
     Increase = 1,
-    Default = 1000,
+    Default = 100000,
     Callback = function(Value)
         lagWait = math.clamp(1 / Value, 0.001, 1)
         print("Hello word Lag Updated For:", lagWait)
     end
 })
 
-TabLag:AddSection({ " o silder e 1000 = 0.001 assim por diante" })
+TabLag:AddSection({ " o silder e 10000 = 0.002 assim por diante" })
 
 TabLag:AddSection({ " Lag com Bola ( fraco )" })
 
@@ -4513,7 +4513,7 @@ TabTroll:AddButton({
     end
 })
 
-local BNumber = 600000 -- Valor fixo
+local BNumber = 600 -- Valor fixo
 local raioCirculo = 5 -- DistÃƒÆ’Ã‚Â¢ncia do cÃƒÆ’Ã‚Â­rculo em relaÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o ao personagem
 
 -- FunÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o para organizar itens em formato de cÃƒÆ’Ã‚Â­rculo
