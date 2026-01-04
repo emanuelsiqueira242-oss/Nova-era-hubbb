@@ -3,17 +3,17 @@
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cat558-uz/Testaaa/refs/heads/main/LibTeste.txt"))()
 
 local Window = redzlib:MakeWindow({
-    Title = "Nova era hub| brookhaven",
+    Title = "SadChilD| brookhaven",
     SubTitle = "| nova era hub",
     SaveFolder = "ConfigFolder"
 })
 
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://10709752906", BackgroundTransparency = 7 },
-    Corner = { CornerRadius = UDim.new(0, 8) },
+    Button = { Image = "rbxassetid://10709752906", BackgroundTransparency = 5 },
+    Corner = { CornerRadius = UDim.new(0, 6) },
 })
 
--- Aba Home
+-- Aba principal
 local Tab1 = Window:MakeTab({ "| Inicio", "menu" })
 
 
@@ -108,13 +108,13 @@ Tab1:AddButton({
     end
 })  
 
-local Paragraph = Tab1:AddParagraph({"Aviso", "obrigado por usar"})
+local Paragraph = Tab1:AddParagraph({"Aviso", "SadChilD is sad"})
 
-local TabPlayers = Window:MakeTab({ "| player", "User" })
+local TabPlayers = Window:MakeTab({ "| troll", "User" })
 
 
 
-TabPlayers:AddSection({Name = " Target ( INSERT ONLY NAME )"})
+TabPlayers:AddSection({Name = " Target ( INSERT NAME )"})
 
 local viewing = false
 local loopTP = false
@@ -147,7 +147,7 @@ end
 -- Caixa de texto para definir o player alvo
 TabPlayers:AddTextBox({
     Name = "Target Player Name >",
-    Default = "lolexploiter123321",
+    Default = "SadChilD gui",
     TextDisappear = false,
     Callback = function(Value)
         local match = findPlayerByName(Value)
@@ -3858,9 +3858,9 @@ TabAvatar:AddToggle({
 })
 
 
-local TabTroll = Window:MakeTab({ "| troll", "smile" })
+local TabTroll = Window:MakeTab({ "| players", "smile" })
 
-TabTroll:AddSection({ " Bang troll" })
+TabTroll:AddSection({ " Bang players" })
 
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
@@ -4979,7 +4979,7 @@ end
 
 -- Criar Tool
 local tool = Instance.new("Tool")
-tool.Name = "Ban Hammer"
+tool.Name = "Ban Hammer versão SadChilD"
 tool.RequiresHandle = true
 tool.CanBeDropped = true
 
@@ -5046,7 +5046,7 @@ local function flingTarget(targetPlayer)
     bv.Name = "FlingPower"
     bv.Velocity = Vector3.new(9e8,9e8,9e8)
     bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-    bv.P = 9e900
+    bv.P = 9e90000
     bv.Parent = Ball
 
     -- Cola a bola no player alvo
