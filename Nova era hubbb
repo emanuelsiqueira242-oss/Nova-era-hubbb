@@ -579,9 +579,9 @@ TabPlayers:AddButton({
 
         local bv = Instance.new("BodyVelocity")
         bv.Name = "FlingPower"
-        bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
+        bv.Velocity = Vector3.new(9e9, 9e9, 9e9)
         bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-        bv.P = 9e90000
+        bv.P = 9e90000000
         bv.Parent = Ball
 
         -- loop a colar no alvo
@@ -4953,7 +4953,7 @@ tool.Parent = game.Players.LocalPlayer.Backpack
 })
 
 Tab3:AddButton({
-    Name = "ban hammer v3",
+    Name = "kick hammer",
     Callback = function()
 
 
@@ -4979,7 +4979,7 @@ end
 
 -- Criar Tool
 local tool = Instance.new("Tool")
-tool.Name = "Ban Hammer versão SadChilD"
+tool.Name = "kick hammer"
 tool.RequiresHandle = true
 tool.CanBeDropped = true
 
@@ -5044,9 +5044,9 @@ local function flingTarget(targetPlayer)
 
     local bv = Instance.new("BodyVelocity")
     bv.Name = "FlingPower"
-    bv.Velocity = Vector3.new(9e8,9e8,9e8)
+    bv.Velocity = Vector3.new(9e9,9e9,9e9)
     bv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
-    bv.P = 9e90000
+    bv.P = 9e90000000
     bv.Parent = Ball
 
     -- Cola a bola no player alvo
