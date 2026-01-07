@@ -6,6 +6,7 @@ local Window = redzlib:MakeWindow({
     Title = "SadChilD| brookhaven",
     SubTitle = "| nova era hub",
     SaveFolder = "ConfigFolder"
+    Theme = "Dark"
 })
 
 Window:AddMinimizeButton({
