@@ -9,8 +9,8 @@ local Window = redzlib:MakeWindow({
 })
 
 Window:AddMinimizeButton({
-    Button = { Image = "rbxassetid://10709752906", BackgroundTransparency = 5 },
-    Corner = { CornerRadius = UDim.new(0, 6) },
+    Button = { Image = "rbxassetid://10709752906", BackgroundTransparency = 9 },
+    Corner = { CornerRadius = UDim.new(0, 9) },
 })
 
 -- Aba principal
@@ -579,7 +579,7 @@ TabPlayers:AddButton({
 
         local bv = Instance.new("BodyVelocity")
         bv.Name = "FlingPower"
-        bv.Velocity = Vector3.new(9e9, 9e9, 9e9)
+        bv.Velocity = Vector3.new(100e100, 100e100, 100e100)
         bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
         bv.P = 9e90000000
         bv.Parent = Ball
@@ -655,7 +655,7 @@ TabPlayers:AddToggle({
             bv.Name = "FlingPower"
             bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
             bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-            bv.P = 9e900
+            bv.P = 9e90000
             bv.Parent = shieldBall
 
             -- Cola no torso
