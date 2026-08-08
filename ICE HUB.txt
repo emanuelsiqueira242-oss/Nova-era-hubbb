@@ -1,6 +1,5 @@
--- This file was generated at discord.gg/syncrypt
 
-getgenv().OIHUB_UI_AUTOSTART = false
+getgenv().NinoHUB_UI_AUTOSTART = false
 local RunService, UserInputService, PathfindingService, Workspace, LocalPlayer, v61, t24, t25, t26, v66, v67, v72, v73, vector3, n6, v83
 local v84, u88, v90, u94, v96, v98, v101, v103, v104, v108, v109, v127, v138, v139, u149, u152
 local v155, u156, n11, n12, v175, t50, v203, v209, v211, v212
@@ -8569,8 +8568,8 @@ if v215 then
 					Subtitle = "Sintonia",
 					Width = 1000,
 					Height = 470,
-					LogoUrl = "https://i.imgur.com/4mGyRZy.png",
-					ToggleButtonImage = "https://i.imgur.com/gwkbuF6.png",
+					LogoUrl = "https://imgur.com/a/khlzLr",
+					ToggleButtonImage = "https://imgur.com/a/LCnbwmv",
 					ToggleButtonSize = 66,
 					ToggleButtonImageInset = 3
 				})
