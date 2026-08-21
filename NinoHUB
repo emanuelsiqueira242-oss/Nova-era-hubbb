@@ -1,4 +1,10 @@
 
+local GAME_ID_PERMITIDO = 4924922222
+
+if game.PlaceId ~= GAME_ID_PERMITIDO then
+    return
+end
+
 local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/psychoSAGAZ/REDZ-lib-TESTE/refs/heads/main/README.md"))()
 
 local Window = redzlib:MakeWindow({
