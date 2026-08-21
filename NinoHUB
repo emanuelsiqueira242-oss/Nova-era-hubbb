@@ -7812,5 +7812,5 @@ TabScript:AddToggle({
     end
 })
 
-task.wait(5)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/emanuelsiqueira242-oss/Nova-era-hubb/refs/heads/main/Nino%20hub%20protect.txt"))()
+task.wait(4)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/emanuelsiqueira242-oss/Nova-era-hubb/refs/heads/main/Nino%20hub.txt"))()
