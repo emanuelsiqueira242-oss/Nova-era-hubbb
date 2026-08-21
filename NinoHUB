@@ -7818,11 +7818,5 @@ TabScript:AddToggle({
     end
 })
 
-print("Compre o Painel Admin Em https://discord.gg/qwKcjV6d55")
-print("https://discord.gg/qwKcjV6d55")
-print("https://discord.gg/qwKcjV6d55")
-
-task.wait(5)
+task.wait(4)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/emanuelsiqueira242-oss/Nova-era-hubb/refs/heads/main/Nino%20hub.txt"))()
-
---[[
