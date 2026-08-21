@@ -7817,6 +7817,7 @@ TabScript:AddToggle({
         end
     end
 })
+
 print("Compre o Painel Admin Em https://discord.gg/qwKcjV6d55")
 print("https://discord.gg/qwKcjV6d55")
 print("https://discord.gg/qwKcjV6d55")
