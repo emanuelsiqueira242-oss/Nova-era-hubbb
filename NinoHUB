@@ -59,22 +59,6 @@ local nickname = player.Name
 Tab1:AddParagraph({"Nickname", nickname})
 Tab1:AddParagraph({"Versão", "3.0.1"})
 
-Tab1:AddSection({Name = "Outros"}) 
-Tab1:AddButton({
-    Name = "Deletar Brookhaven News",
-    Description = "Faz Muira Zuada",
-    Callback = function()
-        local obj = workspace:FindFirstChild("BrookavenNewsSign")
-
-        if obj then
-            obj:Destroy()
-            print("BrookavenNewsSign deletado!")
-        else
-            warn("Objeto não encontrado.")
-        end
-    end
-})
-
 ----------------------------------------------------------------------------------------------------------------
 -----------------------------------------Aba Cliente-----------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
@@ -1074,10 +1058,10 @@ Tab2:AddToggle({
 
 
 ----------------------------------------------------------------------------------------------------------------
------------------------------------------Aba Jogadores-----------------------------------------------------
+-----------------------------------------Aba TROLL PLAYERS-----------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 
-local Tab3= Window:MakeTab({ "| Jogadores", "users" })
+local Tab3= Window:MakeTab({ "| Troll Player", "users" })
 
 
 local DropdownJogadores
@@ -2104,7 +2088,7 @@ Tab3:AddButton({
                 tHum = target.Character:FindFirstChildOfClass("Humanoid")
                 tRoot = target.Character:FindFirstChild("HumanoidRootPart")
                 if not tRoot then break end
-                angle += 900
+                angle += 500
                 root.CFrame = CFrame.new(tRoot.Position + Vector3.new(0, 1, 0)) * CFrame.Angles(math.rad(angle), 0, 0)
                 root.Velocity = Vector3.new(9e8,9e8,9e8)
                 root.RotVelocity = Vector3.new(9e8,9e8,9e8)
@@ -2487,348 +2471,438 @@ Tab3:AddButton({
     end
 })
 
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-
--- Variáveis de Configuração
-local auraDistance = 6
-local auraSpeed = 1
-local auraHeight = -3
-local auraEnabled = false -- Orbita Você
-local auraTargetEnabled = false -- Orbita Alvo
-local currentShape = "Circulo"
-local currentMovement = "Em fila sentido horario"
-
-local effectWaveEnabled = false
-local effectWaveV2Enabled = false
-local maxWaveHeight = 5 
-
--- Novas Variáveis
-local effectPingPongEnabled = false -- Efeito Vai e Vem
-local orbitStaticEnabled = false -- Órbita Posição Atual
-local staticPosition = nil -- Guarda a posição capturada
-
--- Elementos da Interface (Tab3)
-Tab3:AddSection({ Name = "Orbita Props", Icon = "rbxassetid://" })
+Tab3:AddSection({ Name = "Ferramentas Tool" })
 
 Tab3:AddButton({
-    Name = "Pega a Caixa de Props",
+    Name = "Click Fling Couch (Tool)",
     Callback = function()
-        local args = {
-            [1] = "PickingTools",
-            [2] = "PropMaker"
-        }
-        pcall(function()
-            game:GetService("ReplicatedStorage").RE:FindFirstChild("1Too1l"):InvokeServer(unpack(args))
+        local jogadores = game:GetService("Players")
+        local rep = game:GetService("ReplicatedStorage")
+        local entrada = game:GetService("UserInputService")
+        local eu = jogadores.LocalPlayer
+        local cam = workspace.CurrentCamera
+
+        local podeClicar = true
+        local ferramentaEquipada = false
+        local NOME_FERRAMENTA = "Fling Couch Tool"
+
+        local mochila = eu:WaitForChild("Backpack")
+
+        if not mochila:FindFirstChild(NOME_FERRAMENTA) and not (eu.Character and eu.Character:FindFirstChild(NOME_FERRAMENTA)) then
+            local ferramenta = Instance.new("Tool")
+            ferramenta.Name = NOME_FERRAMENTA
+            ferramenta.RequiresHandle = false
+            ferramenta.CanBeDropped = false
+
+            ferramenta.Equipped:Connect(function()
+                ferramentaEquipada = true
+            end)
+
+            ferramenta.Unequipped:Connect(function()
+                ferramentaEquipada = false
+            end)
+
+            ferramenta.Parent = mochila
+        end
+
+        local function jogarComSofa(alvo)
+            if not ferramentaEquipada then return end
+            if not alvo or not alvo.Character or alvo == eu then return end
+
+            local jogando = true
+            local raiz = eu.Character and eu.Character:FindFirstChild("HumanoidRootPart")
+            local alvoRaiz = alvo.Character and alvo.Character:FindFirstChild("HumanoidRootPart")
+            if not raiz or not alvoRaiz then return end
+
+            local boneco = eu.Character
+            local humano = boneco:FindFirstChildOfClass("Humanoid")
+            local posOriginal = raiz.CFrame
+
+            rep:WaitForChild("RE"):WaitForChild("1Clea1rTool1s"):FireServer("ClearAllTools")
+            task.wait(0.2)
+
+            rep.RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools", "Couch")
+            task.wait(0.3)
+
+            local sofa = eu.Backpack:FindFirstChild("Couch")
+            if sofa then
+                sofa.Parent = boneco
+            end
+            task.wait(0.1)
+
+            game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.F, false, game)
+            task.wait(0.25)
+
+            workspace.FallenPartsDestroyHeight = 0/0
+
+            local forca = Instance.new("BodyVelocity")
+            forca.Name = "ForcaJogada"
+            forca.Velocity = Vector3.new(9e8, 9e8, 9e8)
+            forca.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+            forca.Parent = raiz
+
+            humano:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+            humano.PlatformStand = false
+            cam.CameraSubject = alvo.Character:FindFirstChild("Head") or alvoRaiz or humano
+
+            task.spawn(function()
+                local angulo = 0
+                while jogando and alvo and alvo.Character and alvo.Character:FindFirstChildOfClass("Humanoid") do
+                    local alvoHum = alvo.Character:FindFirstChildOfClass("Humanoid")
+                    if alvoHum.Sit then break end
+                    angulo += 500
+
+                    local hrp = alvo.Character.HumanoidRootPart
+                    local pos = hrp.Position + hrp.Velocity / 1.5
+                    
+                    raiz.CFrame = CFrame.new(pos + Vector3.new(0, 2, 0)) * CFrame.Angles(math.rad(angulo), 0, 0)
+                    raiz.Velocity = Vector3.new(9e8, 9e8, 9e8)
+                    raiz.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+                    task.wait()
+                end
+
+                jogando = false
+                forca:Destroy()
+                humano:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+                humano.PlatformStand = false
+                raiz.CFrame = posOriginal
+                cam.CameraSubject = humano
+
+                for _, p in pairs(boneco:GetDescendants()) do
+                    if p:IsA("BasePart") then
+                        p.Velocity = Vector3.zero
+                        p.RotVelocity = Vector3.zero
+                    end
+                end
+
+                humano:UnequipTools()
+                rep.RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools", "Couch")
+            end)
+
+            while jogando do
+                task.wait()
+            end
+        end
+
+        entrada.TouchTap:Connect(function(toques, processado)
+            if processado or not podeClicar or not ferramentaEquipada then return end
+
+            local pos = toques[1]
+            local raio = cam:ScreenPointToRay(pos.X, pos.Y)
+            local acerto = workspace:Raycast(raio.Origin, raio.Direction * 1000)
+
+            if acerto and acerto.Instance then
+                local alvo = jogadores:GetPlayerFromCharacter(acerto.Instance:FindFirstAncestorOfClass("Model"))
+                if alvo and alvo ~= eu then
+                    podeClicar = false
+                    jogarComSofa(alvo)
+                    task.delay(2, function()
+                        podeClicar = true
+                    end)
+                end
+            end
         end)
     end
 })
 
-Tab3:AddDropdown({
-    Name = "Formas",
-    Default = "Circulo",
-    Multi = false,
-    Options = {"Circulo", "Quadrado", "Triangulo"},
-    Callback = function(shape) currentShape = shape end
-})
+Tab3:AddButton({
+    Name = "Click Fling Ball (Tool)",
+    Callback = function()
+        local jogadores = game:GetService("Players")
+        local rep = game:GetService("ReplicatedStorage")
+        local mundo = game:GetService("Workspace")
+        local entrada = game:GetService("UserInputService")
+        local cam = mundo.CurrentCamera
+        local eu = jogadores.LocalPlayer
 
-Tab3:AddDropdown({
-    Name = "Movimentos",
-    Default = "Em fila sentido horario",
-    Multi = false,
-    Options = {
-        "Em fila sentido horario", 
-        "Em fila sentido anti horario", 
-        "Virado para fora sentido horario", 
-        "Virado para fora sentido anti horario", 
-        "Virado para dentro sentido horario", 
-        "Virado para dentro sentido anti horario",
-        "De cabeça para baixo sentido horario",
-        "De cabeça para baixo sentido anti horario",
-        "De cabeça para baixo virado para dentro horario",
-        "De cabeça para baixo virado para dentro anti horario",
-        "De cabeça para baixo virado para fora horario",
-        "De cabeça para baixo virado para fora anti horario",
-        "Deitado horário",
-        "Deitado anti horario",
-        "Deitado virado para dentro horario",
-        "Deitado virado para dentro anti horario",
-        "Deitado virado para fora horário",
-        "Deitado virado para fora anti horario"
-    },
-    Callback = function(movement) currentMovement = movement end
-})
+        local NOME_FERRAMENTA = "Fling Ball Tool"
+        local ferramentaEquipada = false
 
-Tab3:AddSlider({
-    Name = "Distância",
-    Min = 1, -- Ajustado para o mínimo exigido pelo Vai e Vem
-    Max = 100,
-    Default = 6,
-    Increase = 0.5,
-    Callback = function(v) auraDistance = v end
-})
+        local mochila = eu:WaitForChild("Backpack")
+        if not mochila:FindFirstChild(NOME_FERRAMENTA) then
+            local ferramenta = Instance.new("Tool")
+            ferramenta.Name = NOME_FERRAMENTA
+            ferramenta.RequiresHandle = false
+            ferramenta.CanBeDropped = false
 
-Tab3:AddSlider({
-    Name = "Velocidade",
-    Min = 1,
-    Max = 20,
-    Default = 4,
-    Increase = 1,
-    Callback = function(v) auraSpeed = v end
-})
+            ferramenta.Equipped:Connect(function()
+                ferramentaEquipada = true
+            end)
 
-Tab3:AddSlider({
-    Name = "Altura",
-    Min = -3, 
-    Max = 100,
-    Default = -3,
-    Increase = 0.5,
-    Callback = function(v) auraHeight = v end
-})
+            ferramenta.Unequipped:Connect(function()
+                ferramentaEquipada = false
+            end)
 
-Tab3:AddSlider({
-    Name = "Altura Efeitos",
-    Min = 1,
-    Max = 20,
-    Default = 5,
-    Increase = 0.5,
-    Callback = function(v) maxWaveHeight = v end
-})
-
-Tab3:AddToggle({
-    Name = "Efeito Sobe e Desce",
-    Default = false,
-    Callback = function(v) effectWaveEnabled = v end
-})
-
-Tab3:AddToggle({
-    Name = "Efeito Sobe e Desce V2",
-    Default = false,
-    Callback = function(v) effectWaveV2Enabled = v end
-})
-
-Tab3:AddToggle({
-    Name = "Efeito Vai e Vem",
-    Default = false,
-    Callback = function(v) effectPingPongEnabled = v end
-})
-
-Tab3:AddToggle({
-    Name = "Órbita Posição Atual",
-    Default = false,
-    Callback = function(v) 
-        orbitStaticEnabled = v 
-        if v then
-            -- Captura a posição APENAS UMA VEZ no momento do clique
-            local char = LocalPlayer.Character
-            local hrp = char and char:FindFirstChild("HumanoidRootPart")
-            if hrp then
-                staticPosition = hrp.Position
-            else
-                staticPosition = Vector3.new(0, 0, 0)
-            end
-        else
-            staticPosition = nil
+            ferramenta.Parent = mochila
         end
+
+        local function FlingBall(target)
+            if not target or not target.Character then return end
+            
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            local backpack = player:WaitForChild("Backpack")
+            local ServerBalls = workspace.WorkspaceCom:WaitForChild("001_SoccerBalls")
+            local camera = workspace.CurrentCamera
+
+            local originalSubject = camera.CameraSubject
+
+            local function GetBall()
+                if not backpack:FindFirstChild("SoccerBall") then
+                    game:GetService("ReplicatedStorage").RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools", "SoccerBall")
+                end
+                repeat task.wait() until backpack:FindFirstChild("SoccerBall")
+                backpack.SoccerBall.Parent = character
+                repeat task.wait() until ServerBalls:FindFirstChild("Soccer" .. player.Name)
+                character.SoccerBall.Parent = backpack
+                return ServerBalls:FindFirstChild("Soccer" .. player.Name)
+            end
+
+            local Ball = ServerBalls:FindFirstChild("Soccer" .. player.Name) or GetBall()
+            Ball.CanCollide = false
+            Ball.Massless = true
+            Ball.CustomPhysicalProperties = PhysicalProperties.new(0.0001, 0, 0)
+
+            if Ball:FindFirstChildWhichIsA("BodyVelocity") then
+                Ball:FindFirstChildWhichIsA("BodyVelocity"):Destroy()
+            end
+
+            local speed = 90
+            local angle = 0
+            
+            local tchar = target.Character
+            local troot = tchar:FindFirstChild("HumanoidRootPart")
+            local thum = tchar:FindFirstChild("Humanoid")
+            if not troot then return end
+
+            if thum then
+                camera.CameraSubject = thum
+            end
+
+            local bv = Instance.new("BodyVelocity")
+            bv.Name = "FlingForce"
+            bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
+            bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+            bv.P = 9e900
+            bv.Parent = Ball
+
+            local connection
+            connection = RunService.Heartbeat:Connect(function()
+                if not target or not target.Character or not target.Character:FindFirstChild("HumanoidRootPart") then
+                    if connection then connection:Disconnect() end
+                    if originalSubject then
+                        camera.CameraSubject = originalSubject
+                    end
+                    return
+                end
+
+                local currentTroot = target.Character.HumanoidRootPart
+                if not currentTroot then return end
+
+                angle = angle + speed * 0.01
+                
+                local offsetZ = math.sin(angle) * 1.5
+                
+                local targetPos = currentTroot.Position + Vector3.new(0, 0, offsetZ)
+                Ball.CFrame = CFrame.new(targetPos)
+                Ball.Orientation += Vector3.new(9999, 9999, 9999)
+                bv.Velocity = Vector3.new(9e8, 9e8, 9e8)
+            end)
+
+            table.insert(orbitalConnections, connection)
+            table.insert(orbitalBalls, {Ball = Ball, Connection = connection, Target = target})
+            table.insert(orbitalCameraSubjects, {Original = originalSubject, Target = thum})
+        end
+
+        entrada.TouchTap:Connect(function(toques, processado)
+            if not ferramentaEquipada or processado then return end
+            local pos = toques[1]
+            local raio = cam:ScreenPointToRay(pos.X, pos.Y)
+            local hit = mundo:Raycast(raio.Origin, raio.Direction * 1000)
+            if hit and hit.Instance then
+                local modelo = hit.Instance:FindFirstAncestorOfClass("Model")
+                local jogador = jogadores:GetPlayerFromCharacter(modelo)
+                if jogador and jogador ~= eu then
+                    FlingBall(jogador)
+                end
+            end
+        end)
     end
 })
 
-Tab3:AddToggle({
-    Name = "Orbita Você",
-    Default = false,
-    Callback = function(v) auraEnabled = v end
-})
+Tab3:AddButton({
+    Name = "Click Fling Prop (Tool)",
+    Callback = function()
+        local jogadores = game:GetService("Players")
+        local rep = game:GetService("ReplicatedStorage")
+        local mundo = game:GetService("Workspace")
+        local entrada = game:GetService("UserInputService")
+        local cam = mundo.CurrentCamera
+        local RunService = game:GetService("RunService")
+        local VirtualUser = game:GetService("VirtualUser")
+        local eu = jogadores.LocalPlayer
 
-Tab3:AddToggle({
-    Name = "Orbita Alvo",
-    Default = false,
-    Callback = function(v) auraTargetEnabled = v end
-})
+        local NOME_FERRAMENTA = "Fling Prop Tool"
+        local ferramentaEquipada = false
 
--- Funções Matemáticas para Formas Geométricas
-local function getSquareOffset(angle, distance)
-    local c = math.cos(angle)
-    local s = math.sin(angle)
-    local maxCoord = math.max(math.abs(c), math.abs(s))
-    if maxCoord == 0 then maxCoord = 1 end
-    return (c / maxCoord) * distance, (s / maxCoord) * distance
-end
+        local mochila = eu:WaitForChild("Backpack")
+        if not mochila:FindFirstChild(NOME_FERRAMENTA) then
+            local ferramenta = Instance.new("Tool")
+            ferramenta.Name = NOME_FERRAMENTA
+            ferramenta.RequiresHandle = false
+            ferramenta.CanBeDropped = false
 
-local function getTriangleOffset(angle, distance)
-    local outAngle = math.fmod(angle, math.pi * 2 / 3)
-    if outAngle < 0 then outAngle = outAngle + (math.pi * 2 / 3) end
-    local r = distance * math.cos(math.pi / 3) / math.cos(outAngle - math.pi / 3)
-    return math.cos(angle) * r, math.sin(angle) * r
-end
+            ferramenta.Equipped:Connect(function()
+                ferramentaEquipada = true
+            end)
 
--- Loop Principal
-task.spawn(function()
-    local angle = 0
-    local waveTime = 0
-    local pingPongTime = 0
+            ferramenta.Unequipped:Connect(function()
+                ferramentaEquipada = false
+            end)
 
-    RunService.RenderStepped:Connect(function(dt)
-        if not auraEnabled and not auraTargetEnabled and not orbitStaticEnabled then return end
-        
-        local myChar = LocalPlayer.Character
-        local myHrp = myChar and myChar:FindFirstChild("HumanoidRootPart")
-        
-        local targetPlayerObj = selectedPlayer and Players:FindFirstChild(selectedPlayer)
-        local targetChar = targetPlayerObj and targetPlayerObj.Character
-        local targetHrp = targetChar and targetChar:FindFirstChild("HumanoidRootPart")
-
-        local folder = workspace:FindFirstChild("WorkspaceCom")
-        local propsFolder = folder and folder:FindFirstChild("001_TrafficCones")
-        if not propsFolder then return end
-
-        -- Sentido da rotação
-        if currentMovement:find("anti horario") then
-            angle = angle - (dt * auraSpeed)
-        else
-            angle = angle + (dt * auraSpeed)
-        end
-        
-        waveTime = waveTime + (dt * 1.5)
-        pingPongTime = pingPongTime + (dt * 2) -- Velocidade do Vai e Vem
-
-        local myProps = {}
-        for _, prop in ipairs(propsFolder:GetChildren()) do
-            if prop.Name:find("Prop" .. LocalPlayer.Name) then
-                table.insert(myProps, prop)
-            end
+            ferramenta.Parent = mochila
         end
 
-        local totalProps = #myProps
-        if totalProps == 0 then return end
-
-        local targetGroups = {}
-        
-        -- Prioridade 1: Se Órbita Estática estiver ligada, ignora os eixos móveis dos players
-        if orbitStaticEnabled and staticPosition then
-            for index, prop in ipairs(myProps) do
-                table.insert(targetGroups, {prop = prop, isStatic = true, staticCenter = staticPosition, groupIndex = index, groupTotal = totalProps})
-            end
-        -- Prioridade 2: Divisão mútua entre você e o Alvo
-        elseif auraEnabled and auraTargetEnabled and targetHrp then
-            local half = math.ceil(totalProps / 2)
-            for index, prop in ipairs(myProps) do
-                if index <= half then
-                    table.insert(targetGroups, {prop = prop, centerHrp = myHrp, groupIndex = index, groupTotal = half})
-                else
-                    table.insert(targetGroups, {prop = prop, centerHrp = targetHrp, groupIndex = index - half, groupTotal = totalProps - half})
-                end
-            end
-        -- Prioridade 3: Apenas no Alvo
-        elseif auraTargetEnabled and targetHrp then
-            for index, prop in ipairs(myProps) do
-                table.insert(targetGroups, {prop = prop, centerHrp = targetHrp, groupIndex = index, groupTotal = totalProps})
-            end
-        -- Prioridade 4: Apenas em Você
-        else
-            if myHrp then
-                for index, prop in ipairs(myProps) do
-                    table.insert(targetGroups, {prop = prop, centerHrp = myHrp, groupIndex = index, groupTotal = totalProps})
-                end
-            end
-        end
-
-        -- Lógica de cálculo posicional por prop
-        for _, data in ipairs(targetGroups) do
-            local prop = data.prop
-            local index = data.groupIndex
-            local groupTotal = data.groupTotal
+        local function FlingProp(target)
+            if not target or not target.Character then return end
             
-            -- Define qual será o ponto central (Estático ou um Player HRP)
-            local centerPosition = nil
-            local referenceCFrame = nil
-            
-            if data.isStatic then
-                centerPosition = data.staticCenter
-                referenceCFrame = CFrame.new(centerPosition)
-            elseif data.centerHrp then
-                centerPosition = data.centerHrp.Position
-                referenceCFrame = data.centerHrp.CFrame
-            end
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            local backpack = player:WaitForChild("Backpack")
+            local camera = workspace.CurrentCamera
 
-            if centerPosition then
-                local offsetAngle = angle + ((index - 1) * (math.pi * 2 / groupTotal))
+            local originalSubject = camera.CameraSubject
+
+            -- Limpa tools e props antigos
+            pcall(function()
+                rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer("ClearAllTools")
+                rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer("ClearAllProps")
+            end)
+            task.wait(0.2)
+
+            -- Pega o PropMaker
+            rep.RE:FindFirstChild("1Too1l"):InvokeServer("PickingTools", "PropMaker")
+            local propTool = backpack:WaitForChild("PropMaker", 5)
+            
+            if propTool then
+                local humanoid = character:WaitForChild("Humanoid")
+                humanoid:EquipTool(propTool)
+                task.wait(0.3)
                 
-                -- Cálculo Dinâmico da Distância (Efeito Vai e Vem)
-                local dynamicDistance = auraDistance
-                if effectPingPongEnabled then
-                    if auraDistance > 5 then
-                        -- Oscila suavemente de 5 até o valor do slider máximo configurado
-                        local wave = (math.sin(pingPongTime) + 1) * 0.5
-                        dynamicDistance = 5 + (wave * (auraDistance - 5))
-                    else
-                        dynamicDistance = 5
+                -- Spawna o prop (Bleachers)
+                local reqArgs = {"RequestingPropName", "FurnitureBleachers", "Furniture"}
+                rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer(unpack(reqArgs))
+                task.wait(0.5)
+                
+                local toolRemote = propTool:FindFirstChild("Tool_PropMake")
+                if toolRemote then
+                    local hrp = character:WaitForChild("HumanoidRootPart")
+                    toolRemote:FireServer(workspace.Model.Street.Street, hrp.Position + Vector3.new(0, -15, 0))
+                end
+                
+                VirtualUser:Button1Down(Vector2.new(0, 500), workspace.CurrentCamera.CFrame)
+                task.wait(0.1)
+                VirtualUser:Button1Up(Vector2.new(0, 500), workspace.CurrentCamera.CFrame)
+            end
+
+            local tchar = target.Character
+            local troot = tchar:FindFirstChild("HumanoidRootPart")
+            local thum = tchar:FindFirstChild("Humanoid")
+            if not troot then return end
+
+            if thum then
+                camera.CameraSubject = thum
+            end
+
+            local destinationCF = CFrame.new(1082537, 81322368, -4719626)
+            local wasSitting = false
+            local liftOffset = -10
+
+            local connection
+            connection = RunService.Heartbeat:Connect(function()
+                if not target or not target.Character or not target.Character:FindFirstChild("HumanoidRootPart") then
+                    if connection then connection:Disconnect() end
+                    if originalSubject then
+                        camera.CameraSubject = originalSubject
                     end
-                end
-
-                -- 1. Calcula Posição X e Z com a nova distância dinâmica
-                local px, pz = 0, 0
-                if currentShape == "Quadrado" then
-                    px, pz = getSquareOffset(offsetAngle, dynamicDistance)
-                elseif currentShape == "Triangulo" then
-                    px, pz = getTriangleOffset(offsetAngle, dynamicDistance)
-                else
-                    px = math.cos(offsetAngle) * dynamicDistance
-                    pz = math.sin(offsetAngle) * dynamicDistance
-                end
-
-                -- 2. Efeito Sobe e Desce
-                local yOffset = 0
-                if effectWaveEnabled then
-                    local activeIndex = (math.floor(waveTime / math.pi) % groupTotal) + 1
-                    local activeProgress = waveTime % math.pi 
-                    if index == activeIndex then
-                        yOffset = math.sin(activeProgress) * maxWaveHeight
-                    end
-                elseif effectWaveV2Enabled then
-                    local groupFactor = (index % 2 == 0) and 1 or -1
-                    yOffset = (math.sin(waveTime * 0.8 * groupFactor) + 1) * 0.5 * maxWaveHeight
-                end
-
-                local targetPosition = centerPosition + Vector3.new(px, auraHeight + yOffset, pz)
-
-                -- 3. Rotação/Direção do CFrame
-                local baseCFrame
-                if currentMovement:find("virado para fora") or currentMovement:find("Virado para fora") then
-                    baseCFrame = CFrame.lookAt(targetPosition, targetPosition + Vector3.new(px, 0, pz))
-                elseif currentMovement:find("virado para dentro") or currentMovement:find("Virado para dentro") then
-                    baseCFrame = CFrame.lookAt(targetPosition, Vector3.new(centerPosition.X, targetPosition.Y, centerPosition.Z))
-                else
-                    baseCFrame = CFrame.new(targetPosition) * (referenceCFrame - referenceCFrame.Position)
-                end
-
-                -- 4. Multiplicadores de Eixo Especiais
-                local targetCFrame = baseCFrame
-                if currentMovement:find("De cabeça para baixo") then
-                    targetCFrame = baseCFrame * CFrame.Angles(0, 0, math.pi)
-                elseif currentMovement:find("Deitado") then
-                    targetCFrame = baseCFrame * CFrame.Angles(math.pi / 2, 0, 0)
-                end
-
-                local remote = prop:FindFirstChild("SetCurrentCFrame")
-                if remote then
-                    task.spawn(function()
-                        pcall(function()
-                            remote:InvokeServer(targetCFrame)
-                        end)
+                    pcall(function()
+                        rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer("ClearAllTools")
+                        rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer("ClearAllProps")
                     end)
+                    return
+                end
+
+                local currentTroot = target.Character.HumanoidRootPart
+                local currentThum = target.Character:FindFirstChild("Humanoid")
+                if not currentTroot then return end
+
+                if currentThum and currentThum.Sit then
+                    if not wasSitting then
+                        wasSitting = true
+                        local wCom = workspace:FindFirstChild("WorkspaceCom")
+                        if wCom then
+                            for _, f in ipairs(wCom:GetChildren()) do
+                                for _, prop in ipairs(f:GetChildren()) do
+                                    if prop.Name:find("Prop"..player.Name) and prop:FindFirstChild("SetCurrentCFrame") then
+                                        pcall(function() 
+                                            prop.SetCurrentCFrame:InvokeServer(destinationCF) 
+                                        end)
+                                    end
+                                end
+                            end
+                        end
+                        task.wait(0.4)
+                        pcall(function()
+                            rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer("ClearAllTools")
+                            rep.RE:FindFirstChild("1Clea1rTool1s"):FireServer("ClearAllProps")
+                        end)
+                        if connection then connection:Disconnect() end
+                        if originalSubject then
+                            camera.CameraSubject = originalSubject
+                        end
+                    end
+                else
+                    wasSitting = false
+                    liftOffset = liftOffset + 0.5
+                    if liftOffset > 2 then liftOffset = -10 end
+                    
+                    local wCom = workspace:FindFirstChild("WorkspaceCom")
+                    if wCom then
+                        for _, f in ipairs(wCom:GetChildren()) do
+                            for _, prop in ipairs(f:GetChildren()) do
+                                if prop.Name:find("Prop"..player.Name) and prop:FindFirstChild("SetCurrentCFrame") then
+                                    pcall(function() 
+                                        prop.SetCurrentCFrame:InvokeServer(currentTroot.CFrame * CFrame.new(0, liftOffset, 0)) 
+                                    end)
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+
+        entrada.TouchTap:Connect(function(toques, processado)
+            if not ferramentaEquipada or processado then return end
+            local pos = toques[1]
+            local raio = cam:ScreenPointToRay(pos.X, pos.Y)
+            local hit = mundo:Raycast(raio.Origin, raio.Direction * 1000)
+            if hit and hit.Instance then
+                local modelo = hit.Instance:FindFirstAncestorOfClass("Model")
+                local jogador = jogadores:GetPlayerFromCharacter(modelo)
+                if jogador and jogador ~= eu then
+                    FlingProp(jogador)
                 end
             end
-        end
-    end)
-end)
-
+        end)
+    end
+})
 
 ----------------------------------------------------------------------------------------------------------------
 -----------------------------------------Aba Antis-----------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 
-local Tab4= Window:MakeTab({ "| Antis", "shield" })
+local Tab4= Window:MakeTab({ "| Proteção", "shield" })
 
 local antiSitEnabled = false
 local antiSitLoop
