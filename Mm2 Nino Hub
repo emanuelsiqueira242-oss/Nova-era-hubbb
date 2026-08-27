@@ -4161,6 +4161,59 @@ CreateToggle(TabSettings, "Anti Lag (Remove Shadows)", Config.AntiLag, function(
     end
 end)
 
+-- Ultra Anti Lag
+
+local Lighting = game:GetService("Lighting")
+local Terrain = workspace:FindFirstChildOfClass("Terrain")
+
+pcall(function()
+	Lighting.GlobalShadows = false
+	Lighting.FogEnd = 9e9
+	Lighting.Brightness = 0
+end)
+
+pcall(function()
+	settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+end)
+
+for _,v in ipairs(game:GetDescendants()) do
+	if v:IsA("ParticleEmitter")
+	or v:IsA("Trail")
+	or v:IsA("Smoke")
+	or v:IsA("Fire")
+	or v:IsA("Sparkles") then
+		v.Enabled = false
+
+	elseif v:IsA("Decal") or v:IsA("Texture") then
+		v.Transparency = 1
+
+	elseif v:IsA("BasePart") then
+		v.Material = Enum.Material.Plastic
+		v.Reflectance = 0
+	end
+end
+
+if Terrain then
+	pcall(function()
+		Terrain.WaterWaveSize = 0
+		Terrain.WaterWaveSpeed = 0
+		Terrain.WaterReflectance = 0
+		Terrain.WaterTransparency = 1
+	end)
+end
+
+workspace.DescendantAdded:Connect(function(v)
+	task.wait()
+
+	if v:IsA("ParticleEmitter")
+	or v:IsA("Trail")
+	or v:IsA("Smoke")
+	or v:IsA("Fire")
+	or v:IsA("Sparkles") then
+		v.Enabled = false
+	end
+end)
+
 CreateSection(TabSettings, "GAME MISC")
 
 CreateToggle(TabSettings, "Disable Footstep", Config.DisableFootstep, function(v)
